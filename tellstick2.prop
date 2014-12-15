@@ -1,0 +1,14 @@
+{
+  "modules" : { 
+    "tellstick2"  : {
+      "description": "Permet de piloter un clé Tellstick",
+      "version": "1.0",
+	  "tdtool": "C:\\Program Files\\Telldus\\tdtool.exe",
+	  "auto1": "",
+	  "auto2": "",
+	  "auto3": "",
+	  "auto4": "",
+	  "auto5": ""
+    }
+  }
+}

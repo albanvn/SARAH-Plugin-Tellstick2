@@ -1,0 +1,68 @@
+<div id="tellstick2">  
+	<div class="span11">
+	Auteur: Alban Vidal-Naquet<BR>
+	Date: 13/12/2013<BR>
+	<BR><BR>
+	Le plugin 'tellstick2' permet de controler via une clé tellstick/tellstick duo/tellstick net (de Telldus technologies) les prises domotisés chacon, dio, conrad...<a href="http://www.telldus.se/products/compability">cf les compatibilité sur le site de telldus</a><BR><BR>
+    Pour utiliser ce device, vous devez avoir donc la clé tellstick branché sur l'ordinateur où SARAH fonctionne et avoir installé le <a href="http://www.telldus.se/download/latest/win)">logiciel de telldus dédié</a>
+	<BR><BR>
+	<H4><b>Configuration et paramétrages du plugin.</b></H4>
+    <BR>
+    Il vous faudra configurer vos devices via le software fourni par telldus technologies (le Telldus center). Ajouter tous vous modules et configurez-les. Testez que tout fonctionne correctement depuis le software.<BR>
+    <BR>
+    Lorsque vous lancerez SARAH server pour la première fois, les modules déclarés dans le software seront importés. A chaque redemarrage de SARAH server, l'import sera refait.<BR><b>Notez qu'il est important que vos modules aient des noms différents et discrimants,
+    c'est la condition nécéssaire pour que SARAH reconnaisse bien les ordres que vous lui adresserez.</b><BR>
+    <BR>
+    Coté SARAH server, on trouve dans les settings du plugin les champs suivants:
+	<ul>
+		<li><b>tdtool</b>: permet de spécifier le chemin absolu vers l'executable tdtool.exe (venant de l'installation du software de Telldus technologies)</li>
+		<li><b>auto{1-5}</b>: permet de spécifier des programmations des prises (dans 5 champs distincts, mais le nombre de programmation est illimité dans chaque champs).<BR>
+            La syntaxe est la suivante: <b>A=B=C</b> où:<BR>
+            <BR><b>A</b> désigne les jours de la semaine concerné séparé par une virgule. 1 est lundi, 2 mardi...7 dimanche. Ainsi 6,7 désigne le samedi et le dimanche.<BR>
+            <BR><b>B</b> désigne les heures de début et de fin de la programmation. La syntaxe de B est de la forme "HH:MM[+DD]-HH:MM[+DD]". Le premier bloc "HH:MM" désigne l'heure de début de la programmation. Il peut être suivi ou non d'un délai aléatoire "+DD" exprimé en minute. <BR>
+            Ainsi la syntaxe "10:00+30" signifie que la programmation commencera entre 10h00 et 10h30 (10h00 heure de base avec 30 minutes de délai aléatoire).<BR>
+            La second bloc "HH:MM" désigne l'heure de fin de la programmation, comme pour l'heure de début le bloc peut être suivi d'un délai aléatoire "+DD".<BR>
+            <BR><b>C</b> désigne le(s) éléments des module(s) domotique(s) à commander et optionnelement un niveau d'éclairage pour chacun d'eux iniqué entre parenthèse. L'élément peut être décris soit par son nom, un alias ou un groupe (voir explication d'alias et de groupe dans les sections suivantes). Chaque élément doit être séparé par une virgule.
+            <BR><BR>
+            Voici un exemple concret de champ auto{1-5}:<BR>
+            <b>6,7=2000+15-2300+60=le salon,la chambre(30),la lampe de l'entrée(50)</b><BR>
+            Ainsi ce bloc programme tous les samedis et dimanche l'allumage entre 20h et 20h15 du salon au niveau maximum, de la chambre au niveau 30% et de la lampe de l'entrée au niveau 50% et l'extinction de ces équipements entre 23h et minuit.<BR><BR>
+           <b>NB:</b>Sur un même champ auto{1-5} on peut avoir plusieurs programmations qui se suivent séparées par des points virgule ';'.<BR>
+           <b>NB:</b>Si vous voulez ajouter d'autres champs "auto", vous pouvez ouvrir le fichier tellstick2.prop et ajouter ces champs auto6, auto7,... Ils seront automatiquement géré lors du prochain redémarage du serveur SARAH.<BR>
+        </li>
+	</ul>
+    <BR>
+    <H4><b>Notions d'alias et de groupe.</b></H4>
+    <BR>
+    En plus de la déclaration des modules faites dans le "Telldus center" vous pouvez personnaliser ces éléments via 2 notions: l'alias et le groupe.<BR>
+    On notera par la suite "elementtelldus" le nom de l'élément tel qu'il a été déclaré dans le "Telldus center" pour éviter la confusion avec l'alias.<BR>
+    <BR>
+    <b>L'alias</b> permet de nommer de manière différente un éléments domotique. Cet alias peut être déclaré dans le <b>fichier alias.txt</b> situé dans le répértoire du plugin tellstick.<BR>
+    La syntaxe de la déclaration de l'alias est: <b>"elementtelldus=alias[,alias2,...]"</b>. Un seul elementtelldus par ligne doit être déclaré.<BR>
+    Ainsi la déclaration d'alias permettra d'enrichir le <i>fichier tellstick2.xml</i> avec les nouveaux vocabulaires reconnaissable par SARAH.<BR>
+    <BR>
+    <b>Le groupe</b> permet quant à lui de décrire un ensemble d'éléments domotiques. Les groupes sont déclarés dans le fichier <b>groupe.txt</b> situé dans le répértoire du plugin tellstick2.<BR>
+    On ne déclare qu'un groupe par ligne et la syntaxe est: <b>"nom_du_groupe=elementtelldus_ou_alias_ou_groupe[,...]"</b><BR>
+    On pourra grâce à ces groupes commander plusieurs éléments domotiques simultanément.<BR>
+    De la même manière que pour les alias le <i>fichier tellstick2.xml</i> s'enrichira de ces notions de groupe.<BR>
+    <BR>
+    <H4><b>Notion d'atmosphère.</b></H4>
+	<BR>
+    <b>La notion d'atmosphère</b> permet de créer des ambiances d'éclairages. Pour cela il faut modifier le <b>fichier atmosphere.txt</b> situé dans le répértoire du plugin tellstick2.<BR>
+    Dans ce fichier la syntaxe pour déclarer une atmosphère est <b>"nom_ambiance=elementtelldus_ou_alias_ou_groupe(niveau_lumiere),..."</b>.<BR>
+    niveau_lumiere est un entier entre 0 et 255. 0 signifie lumière éteinte, 255 signifie lumière au maximum.<BR>
+    De la même manière que pour les alias et les groupes, le <i>fichier tellstick2.xml</i> s'enrichira de ces notions d'atmosphère.<BR>
+    <BR>
+	<H4><b>Commandes reconnues par SARAH.</b></H4>
+	<BR>
+    La liste des commandes reconnue est longue, veuillez consulter le fichier tellstick2.xml pour voir les commandes disponibles.
+	<BR><BR>
+	<H4><b>ChangeLog</b></H4>
+	<ul>
+		<li>v1.0: 13/12/2013 Initial release</li>
+	</ul>
+	<BR><BR>
+	<H4><b>TODO list.</b></H4>
+	<BR><BR>
+	</div> 
+</div>

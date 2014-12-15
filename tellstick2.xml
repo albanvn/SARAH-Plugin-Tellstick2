@@ -1,0 +1,117 @@
+﻿<grammar version="1.0" xml:lang="fr-FR" mode="voice" root="ruletellstick2" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">  
+  <rule id="ruletellstick2">
+    <item>Sarah</item>
+    <one-of>
+      <item><ruleref uri="#ruletellstick2a"/></item>
+      <item><ruleref uri="#ruletellstick2b"/></item>
+      <item><ruleref uri="#ruletellstick2c"/></item>
+      <item><ruleref uri="#ruletellstick2d"/></item>
+    </one-of>
+  </rule>
+
+  <rule id="ruletellstick2a">
+    <example>Sarah peux-tu éteindre ...</example>
+    <tag>out.action=new Object();</tag>
+    <one-of>
+      <item>tu peux allumer<tag>out.action.mode="on";</tag></item>
+      <item>tu peux éteindre<tag>out.action.mode="off";</tag></item>
+      <item>Peux-tu allumer<tag>out.action.mode="on";</tag></item>
+      <item>Peux-tu éteindre<tag>out.action.mode="off";</tag></item>
+      <item>Est-ce que tu peux allumer<tag>out.action.mode="on";</tag></item>
+      <item>Est-ce que tu peux éteindre<tag>out.action.mode="on";</tag></item>
+      <item>Allumes<tag>out.action.mode="on";</tag></item>
+      <item>éteinds<tag>out.action.mode="off";</tag></item>
+    </one-of>
+    <item><ruleref uri="#ruletellstick_place"/><tag>out.action.place=rules.ruletellstick_place;</tag></item>
+    <item><ruleref uri="#ruletellstick_level"/><tag>out.action.level=rules.ruletellstick_level;</tag></item>
+    <item><ruleref uri="#ruletellstick_please"/></item>
+    <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/tellstick2";</tag>
+  </rule>      
+     
+  <rule id="ruletellstick2b">
+    <example>Sarah Tamise plus ...</example>
+    <tag>out.action=new Object(); </tag>
+    <one-of>
+	  <item>Tamize plus<tag>out.action.mode="plus";</tag></item>
+	  <item>Tamize beaucoup plus<tag>out.action.mode="plusplus";</tag></item>
+	  <item>Tamize moins<tag>out.action.mode="moins";</tag></item>
+	  <item>Tamize beaucoup moins<tag>out.action.mode="moinsmoins";</tag></item>
+    </one-of>	
+    <item><ruleref uri="#ruletellstick_place"/><tag>out.action.place=rules.ruletellstick_place;</tag></item>
+    <item><ruleref uri="#ruletellstick_please"/></item>
+    <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/tellstick2";</tag>
+  </rule>
+
+  <rule id="ruletellstick2c">
+    <example>Sarah ambiance zen</example>
+    <tag>out.action=new Object(); </tag>
+    <tag>out.action.mode="ambiance";</tag>
+    <item>Lumière</item>
+    <item><ruleref uri="#ruletellstick_atmosphere"/><tag>out.action.ambiance=rules.ruletellstick_atmosphere;</tag></item>
+    <item><ruleref uri="#ruletellstick_please"/></item>
+    <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/tellstick2";</tag>
+  </rule>
+  
+  <rule id="ruletellstick2d">
+    <example>Sarah peux-tu tamiser ...</example>
+    <tag>out.action=new Object();</tag>
+    <one-of>        
+        <item>tu peux tamizer<tag>out.action.mode="tamise";</tag></item>
+        <item>Peux-tu tamizer<tag>out.action.mode="tamise";</tag></item>
+        <item>Est-ce que tu peux tamizer<tag>out.action.mode="tamise";</tag></item>
+        <item>tamize<tag>out.action.mode="tamise";</tag></item>
+        <item>tamize moins<tag>out.action.mode="moins";</tag></item>
+        <item>tamize plus<tag>out.action.mode="plus";</tag></item>
+    </one-of>
+    <item><ruleref uri="#ruletellstick_place"/><tag>out.action.place=rules.ruletellstick_place;</tag></item>
+    <item><ruleref uri="#ruletellstick_level"/><tag>out.action.level=rules.ruletellstick_level;</tag></item>
+    <item><ruleref uri="#ruletellstick_please"/></item>
+    <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/tellstick2";</tag>
+  </rule>
+
+  <!-- Niveau d'éclairage -->
+  <rule id="ruletellstick_level">    
+    <tag>out.action=new Object();</tag>
+    <tag>out.action.level=125;</tag>
+    <item repeat="0-1">
+        <one-of>
+	        <item>a dix pour cent<tag>out.action.level=25;</tag></item>
+	        <item>a vingt pour cent<tag>out.action.level=50;</tag></item>
+	        <item>a trente pour cent<tag>out.action.level=75;</tag></item>
+	        <item>a quarante pour cent<tag>out.action.level=100;</tag></item>
+	        <item>a cinquante pour cent<tag>out.action.level=125;</tag></item>
+	        <item>a soixante pour cent<tag>out.action.level=150;</tag></item>
+	        <item>a soixante dix pour cent<tag>out.action.level=175;</tag></item>
+	        <item>a quatre vingt pour cent<tag>out.action.level=200;</tag></item>
+	        <item>a quatre vingt dix pour cent<tag>out.action.level=225;</tag></item>
+	        <item>a cent pour cent<tag>out.action.level=255;</tag></item>
+        </one-of>
+    </item>
+  </rule>
+
+  <!-- Formule de politesse -->
+  <rule id="ruletellstick_please">
+    <item repeat="0-1">
+        <one-of>
+            <item>si il te plait</item>
+            <item>s'il te plait</item>
+            <item>se te plait</item>
+        </one-of>	
+    </item>
+  </rule>
+
+  <!-- Lampe -->
+  <rule id="ruletellstick_place">
+    <tag>out.action=new Object();</tag>
+    <!-- Automatic Generation §1 -->
+	<!-- §1 Automatic Generation -->
+  </rule>
+
+  <!-- Atmosphere -->
+  <rule id="ruletellstick_atmosphere">
+    <tag>out.action=new Object();</tag>
+    <!-- Automatic Generation §2 -->
+	<!-- §2 Automatic Generation -->
+  </rule>
+
+</grammar>
